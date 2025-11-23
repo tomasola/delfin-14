@@ -1,0 +1,7 @@
+{
+  "name": "delfin 11",
+  "description": "Herramienta de escaneo industrial para digitalizar etiquetas, extraer datos con IA y generar reportes PDF.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
