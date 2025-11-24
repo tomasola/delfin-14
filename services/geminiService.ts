@@ -26,9 +26,13 @@ const responseSchema = {
 };
 
 export const analyzeImage = async (base64Image: string): Promise<ExtractedData> => {
+  let apiKey = '';
   try {
     // Validate API Key presence
-    const apiKey = process.env.API_KEY || import.meta.env.VITE_API_KEY;
+    // Prioritize Vite env var, fallback to process.env
+    apiKey = import.meta.env.VITE_API_KEY || process.env.API_KEY || '';
+
+    console.log("Using API Key starting with:", apiKey ? apiKey.substring(0, 10) + "..." : "undefined");
 
     if (!apiKey) {
       throw new Error("API Key is missing. Please check your configuration in Vercel or .env file.");
@@ -68,8 +72,9 @@ export const analyzeImage = async (base64Image: string): Promise<ExtractedData> 
     const data = JSON.parse(text) as ExtractedData;
     return data;
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini Analysis Error:", error);
-    throw error;
+    const keyPrefix = apiKey ? apiKey.substring(0, 10) + "..." : "undefined";
+    throw new Error(`[Key used: ${keyPrefix}] ${error.message || error}`);
   }
 };

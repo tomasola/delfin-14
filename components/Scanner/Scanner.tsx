@@ -96,7 +96,7 @@ export const Scanner: React.FC = () => {
       if (error.message && error.message.includes('API Key')) {
         msg = "Falta configuración: API Key no encontrada.";
       }
-      alert(msg);
+      alert(`Error: ${error.message || msg}`);
       setStatus('idle');
     }
   };
